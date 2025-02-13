@@ -6,7 +6,7 @@
 /*   By: obarais <obarais@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 16:39:30 by obarais           #+#    #+#             */
-/*   Updated: 2025/02/13 13:43:03 by obarais          ###   ########.fr       */
+/*   Updated: 2025/02/13 16:03:22 by obarais          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,16 @@
 #include <stdio.h>
 #include <unistd.h>
 
+void	help(pid_t *last_pid, char *c, int *bit, siginfo_t *info)
+{
+	if (*last_pid != info->si_pid)
+	{
+		*c = 0;
+		*bit = 0;
+		*last_pid = info->si_pid;
+	}
+}
+
 void	handle_signal(int sig, siginfo_t *info, void *context)
 {
 	static char		c = 0;
@@ -22,12 +32,7 @@ void	handle_signal(int sig, siginfo_t *info, void *context)
 	static pid_t	last_pid = 0;
 
 	(void)context;
-	if (last_pid != info->si_pid)
-	{
-		c = 0;
-		bit = 0;
-		last_pid = info->si_pid;
-	}
+	help(&last_pid, &c, &bit, info);
 	if (sig == SIGUSR2)
 		c |= 1 << bit;
 	bit++;
