@@ -6,7 +6,7 @@
 /*   By: obarais <obarais@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 16:40:12 by obarais           #+#    #+#             */
-/*   Updated: 2025/02/12 16:51:43 by obarais          ###   ########.fr       */
+/*   Updated: 2025/02/13 15:57:45 by obarais          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 #include <sys/types.h>
 #include <unistd.h>
 
-static int	i = 0;
+static int	g_i = 0;
 
 int	ft_atoi(const char *str)
 {
@@ -35,22 +35,23 @@ int	ft_atoi(const char *str)
 		i++;
 	while (str[i] && str[i] >= '0' && str[i] <= '9')
 		nbr = (nbr * 10) + (str[i++] - '0');
+	while (str[i] == ' ' || str[i] == '\t' || str[i] == '\n' || str[i] == '\v'
+		|| str[i] == '\f' || str[i] == '\r')
+		i++;
+	if (str[i] && !(str[i] >= '0' && str[i] <= '9'))
+		return (0);
 	return (nbr * sign);
-}
-
-void   vu_hh(int sig)
-{
-    if (sig == SIGUSR2)
-    {
-        write(1, "vu....... ✔️\n", 18);
-        exit(0);
-    }
 }
 
 void	sig_handler(int sig)
 {
 	if (sig == SIGUSR1)
-		i = 1;
+		g_i = 1;
+	if (sig == SIGUSR2)
+	{
+		write(1, "vu....... ✔️\n", 18);
+		exit(0);
+	}
 }
 
 void	send_char(pid_t pid, char c)
@@ -60,12 +61,12 @@ void	send_char(pid_t pid, char c)
 	bit = 0;
 	while (bit < 8)
 	{
-		i = 0;
+		g_i = 0;
 		if ((c >> bit) & 1)
 			kill(pid, SIGUSR2);
 		else
 			kill(pid, SIGUSR1);
-		while (!i)
+		while (!g_i)
 			usleep(50);
 		bit++;
 	}
@@ -81,7 +82,6 @@ int	main(int argc, char **argv)
 		write(2, "Usage: ./client <PID> <message>\n", 32);
 		return (1);
 	}
-	signal(SIGUSR2, vu_hh);
 	pid = ft_atoi(argv[1]);
 	if (pid < 1)
 	{
@@ -89,6 +89,7 @@ int	main(int argc, char **argv)
 		return (1);
 	}
 	signal(SIGUSR1, sig_handler);
+	signal(SIGUSR2, sig_handler);
 	i = 0;
 	while (argv[2][i])
 		send_char(pid, argv[2][i++]);

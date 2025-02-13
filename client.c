@@ -6,7 +6,7 @@
 /*   By: obarais <obarais@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 16:33:33 by obarais           #+#    #+#             */
-/*   Updated: 2025/02/12 16:48:46 by obarais          ###   ########.fr       */
+/*   Updated: 2025/02/13 13:47:36 by obarais          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 #include <sys/types.h>
 #include <unistd.h>
 
-static int	i = 0;
+static int	g_i = 0;
 
 int	ft_atoi(const char *str)
 {
@@ -35,13 +35,18 @@ int	ft_atoi(const char *str)
 		i++;
 	while (str[i] && str[i] >= '0' && str[i] <= '9')
 		nbr = (nbr * 10) + (str[i++] - '0');
+	while (str[i] == ' ' || str[i] == '\t' || str[i] == '\n' || str[i] == '\v'
+		|| str[i] == '\f' || str[i] == '\r')
+		i++;
+	if (str[i] && !(str[i] >= '0' && str[i] <= '9'))
+		return (0);
 	return (nbr * sign);
 }
 
 void	sig_handler(int sig)
 {
 	if (sig == SIGUSR1)
-		i = 1;
+		g_i = 1;
 }
 
 void	send_char(pid_t pid, char c)
@@ -51,12 +56,12 @@ void	send_char(pid_t pid, char c)
 	bit = 0;
 	while (bit < 8)
 	{
-		i = 0;
+		g_i = 0;
 		if ((c >> bit) & 1)
 			kill(pid, SIGUSR2);
 		else
 			kill(pid, SIGUSR1);
-		while (!i)
+		while (!g_i)
 			usleep(50);
 		bit++;
 	}
@@ -73,7 +78,7 @@ int	main(int argc, char **argv)
 		return (1);
 	}
 	pid = ft_atoi(argv[1]);
-	if (pid < 1)
+	if (pid == 0)
 	{
 		write(2, "Invalid PID\n", 12);
 		return (1);
