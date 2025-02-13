@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: obarais <obarais@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/11 15:12:19 by obarais           #+#    #+#             */
-/*   Updated: 2025/02/11 15:39:39 by obarais          ###   ########.fr       */
+/*   Created: 2025/02/12 16:39:30 by obarais           #+#    #+#             */
+/*   Updated: 2025/02/12 16:45:16 by obarais          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,17 @@
 
 void	handle_signal(int sig, siginfo_t *info, void *context)
 {
-	static char	c = 0;
-	static int	bit = 0;
+	static char		c = 0;
+	static int		bit = 0;
+	static pid_t	last_pid = 0;
 
 	(void)context;
+	if (last_pid != info->si_pid)
+	{
+		c = 0;
+		bit = 0;
+		last_pid = info->si_pid;
+	}
 	if (sig == SIGUSR2)
 		c |= 1 << bit;
 	bit++;
@@ -29,13 +36,14 @@ void	handle_signal(int sig, siginfo_t *info, void *context)
 		if (c == '\0')
 		{
 			write(1, "\n", 1);
-			kill(info->si_pid, SIGUSR1);
+			kill(info->si_pid, SIGUSR2);
 		}
 		else
 			write(1, &c, 1);
 		bit = 0;
 		c = 0;
 	}
+	kill(info->si_pid, SIGUSR1);
 }
 
 int	main(void)

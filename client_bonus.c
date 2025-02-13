@@ -5,16 +5,53 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: obarais <obarais@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/11 15:12:03 by obarais           #+#    #+#             */
-/*   Updated: 2025/02/11 15:41:47 by obarais          ###   ########.fr       */
+/*   Created: 2025/02/12 16:40:12 by obarais           #+#    #+#             */
+/*   Updated: 2025/02/12 16:51:43 by obarais          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <signal.h>
-#include <stdio.h>
 #include <stdlib.h>
 #include <sys/types.h>
 #include <unistd.h>
+
+static int	i = 0;
+
+int	ft_atoi(const char *str)
+{
+	int	i;
+	int	sign;
+	int	nbr;
+
+	i = 0;
+	sign = 1;
+	nbr = 0;
+	while (str[i] == ' ' || str[i] == '\t' || str[i] == '\n' || str[i] == '\v'
+		|| str[i] == '\f' || str[i] == '\r')
+		i++;
+	if (str[i] == '-')
+		sign = -1;
+	if (str[i] == '+' || str[i] == '-')
+		i++;
+	while (str[i] && str[i] >= '0' && str[i] <= '9')
+		nbr = (nbr * 10) + (str[i++] - '0');
+	return (nbr * sign);
+}
+
+void   vu_hh(int sig)
+{
+    if (sig == SIGUSR2)
+    {
+        write(1, "vu....... ✔️\n", 18);
+        exit(0);
+    }
+}
+
+void	sig_handler(int sig)
+{
+	if (sig == SIGUSR1)
+		i = 1;
+}
 
 void	send_char(pid_t pid, char c)
 {
@@ -23,21 +60,14 @@ void	send_char(pid_t pid, char c)
 	bit = 0;
 	while (bit < 8)
 	{
+		i = 0;
 		if ((c >> bit) & 1)
 			kill(pid, SIGUSR2);
 		else
 			kill(pid, SIGUSR1);
-		usleep(100);
+		while (!i)
+			usleep(50);
 		bit++;
-	}
-}
-
-void	vu_hh(int sig)
-{
-	if (sig == SIGUSR1)
-	{
-		write(1, "vu....... ✔️\n", 18);
-		exit(0);
 	}
 }
 
@@ -51,12 +81,17 @@ int	main(int argc, char **argv)
 		write(2, "Usage: ./client <PID> <message>\n", 32);
 		return (1);
 	}
-	signal(SIGUSR1, vu_hh);
-	pid = atoi(argv[1]);
+	signal(SIGUSR2, vu_hh);
+	pid = ft_atoi(argv[1]);
+	if (pid < 1)
+	{
+		write(2, "Invalid PID\n", 12);
+		return (1);
+	}
+	signal(SIGUSR1, sig_handler);
 	i = 0;
 	while (argv[2][i])
 		send_char(pid, argv[2][i++]);
 	send_char(pid, '\0');
-	while (1)
-		pause();
+	return (0);
 }
