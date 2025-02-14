@@ -6,7 +6,7 @@
 /*   By: obarais <obarais@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 16:31:00 by obarais           #+#    #+#             */
-/*   Updated: 2025/02/12 16:34:30 by obarais          ###   ########.fr       */
+/*   Updated: 2025/02/14 16:49:51 by obarais          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,6 @@ int	main(void)
 	printf("Server PID: %d\n", pid);
 	act.sa_sigaction = handle_signal;
 	act.sa_flags = SA_SIGINFO;
-	sigemptyset(&act.sa_mask);
 	sigaction(SIGUSR1, &act, NULL);
 	sigaction(SIGUSR2, &act, NULL);
 	while (1)
