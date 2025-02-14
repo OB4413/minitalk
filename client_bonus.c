@@ -6,14 +6,11 @@
 /*   By: obarais <obarais@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 16:40:12 by obarais           #+#    #+#             */
-/*   Updated: 2025/02/14 16:36:52 by obarais          ###   ########.fr       */
+/*   Updated: 2025/02/14 21:50:47 by obarais          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <signal.h>
-#include <stdlib.h>
-#include <sys/types.h>
-#include <unistd.h>
+#include <header.h>
 
 static int	g_i = 0;
 

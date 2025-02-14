@@ -6,14 +6,11 @@
 /*   By: obarais <obarais@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 16:39:30 by obarais           #+#    #+#             */
-/*   Updated: 2025/02/14 21:46:59 by obarais          ###   ########.fr       */
+/*   Updated: 2025/02/14 21:49:48 by obarais          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#define _POSIX_C_SOURCE 200809L
-#include <signal.h>
-#include <stdio.h>
-#include <unistd.h>
+#include "header.h"
 
 void	help(pid_t *last_pid, char *c, int *bit, siginfo_t *info)
 {

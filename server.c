@@ -6,14 +6,11 @@
 /*   By: obarais <obarais@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 16:31:00 by obarais           #+#    #+#             */
-/*   Updated: 2025/02/14 16:49:51 by obarais          ###   ########.fr       */
+/*   Updated: 2025/02/14 21:49:45 by obarais          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#define _POSIX_C_SOURCE 200809L
-#include <signal.h>
-#include <stdio.h>
-#include <unistd.h>
+#include "header.h"
 
 void	handle_signal(int sig, siginfo_t *info, void *context)
 {
