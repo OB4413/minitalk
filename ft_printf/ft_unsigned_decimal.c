@@ -1,21 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   header.h                                           :+:      :+:    :+:   */
+/*   ft_unsigned_decimal.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: obarais <obarais@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/14 21:47:55 by obarais           #+#    #+#             */
-/*   Updated: 2025/02/15 17:32:46 by obarais          ###   ########.fr       */
+/*   Created: 2024/11/25 09:39:54 by obarais           #+#    #+#             */
+/*   Updated: 2024/11/28 21:22:23 by obarais          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef HEADER_H
-# define HEADER_H
+#include "ft_printf.h"
 
-# include "ft_printf/ft_printf.h"
-# include <signal.h>
-# include <sys/types.h>
-# include <unistd.h>
+int	ft_unsigned_decimal(unsigned int nb)
+{
+	int	res;
 
-#endif
+	res = 0;
+	if (nb > 9)
+	{
+		res += ft_unsigned_decimal(nb / 10);
+		res += ft_unsigned_decimal(nb % 10);
+	}
+	else
+		res += ft_putchar(nb + '0');
+	return (res);
+}

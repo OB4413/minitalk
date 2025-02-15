@@ -6,10 +6,11 @@
 /*   By: obarais <obarais@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 16:31:00 by obarais           #+#    #+#             */
-/*   Updated: 2025/02/14 21:49:45 by obarais          ###   ########.fr       */
+/*   Updated: 2025/02/15 17:33:44 by obarais          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#define _POSIX_C_SOURCE 200809L
 #include "header.h"
 
 void	handle_signal(int sig, siginfo_t *info, void *context)
@@ -46,7 +47,7 @@ int	main(void)
 	pid_t				pid;
 
 	pid = getpid();
-	printf("Server PID: %d\n", pid);
+	ft_printf("Server PID: %d\n", pid);
 	act.sa_sigaction = handle_signal;
 	act.sa_flags = SA_SIGINFO;
 	sigaction(SIGUSR1, &act, NULL);

@@ -4,29 +4,51 @@ client = client
 server_bonus = server_bonus
 client_bonus = client_bonus
 
+src_server = server.c
+src_client = client.c
+
+src_server_bonus = server_bonus.c
+src_client_bonus = client_bonus.c
+
+obj_server = $(src_server:.c=.o)
+obj_client = $(src_client:.c=.o)
+
+obj_server_bonus = $(src_server_bonus:.c=.o)
+obj_client_bonus = $(src_client_bonus:.c=.o)
+
+printf = ft_printf/libftprintf.a
+
 CC = cc
-FLAGS = -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror
 
 all: $(server) $(client)
 
-$(server): server.c
-	$(CC) $(FLAGS) server.c -o $(server)
+$(server): $(obj_server)
+	make -C ft_printf
+	$(CC) $(CFLAGS) $(obj_server) $(printf) -o $(server)
 
-$(client): client.c
-	$(CC) $(FLAGS) client.c -o $(client)
+$(client): $(obj_client)
+	$(CC) $(CFLAGS) $(obj_client) -o $(client)
 
 bonus: $(server_bonus) $(client_bonus)
 
-$(server_bonus): server_bonus.c
-	$(CC) $(FLAGS) server_bonus.c -o $(server_bonus)
+$(server_bonus): $(obj_server_bonus)
+	make -C ft_printf
+	$(CC) $(CFLAGS) $(obj_server_bonus) $(printf) -o $(server_bonus)
 
-$(client_bonus): client_bonus.c
-	$(CC) $(FLAGS) client_bonus.c -o $(client_bonus)
+$(client_bonus): $(obj_client_bonus)
+	$(CC) $(CFLAGS) $(obj_client_bonus) -o $(client_bonus)
 
 clean:
-	rm -f $(server) $(client)
-	rm -f $(server_bonus) $(client_bonus)
+	rm -f $(obj_server) $(obj_client) $(obj_server_bonus) $(obj_client_bonus)
+	make clean -C ft_printf
 
-re: clean all
+fclean: clean
+	rm -f $(server) $(client) $(server_bonus) $(client_bonus)
+	make fclean -C ft_printf
 
-.PHONY: all bonus clean fclean re
+re: fclean all
+
+.PHONY: all clean fclean re bonus
+
+.SGANDR: $(obj_client) $(obj_server) $(obj_client_bonus) $(obj_server_bonus)

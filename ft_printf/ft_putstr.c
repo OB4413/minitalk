@@ -1,21 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   header.h                                           :+:      :+:    :+:   */
+/*   ft_putstr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: obarais <obarais@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/14 21:47:55 by obarais           #+#    #+#             */
-/*   Updated: 2025/02/15 17:32:46 by obarais          ###   ########.fr       */
+/*   Created: 2024/11/23 12:43:39 by obarais           #+#    #+#             */
+/*   Updated: 2024/11/25 17:42:45 by obarais          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef HEADER_H
-# define HEADER_H
+#include "ft_printf.h"
 
-# include "ft_printf/ft_printf.h"
-# include <signal.h>
-# include <sys/types.h>
-# include <unistd.h>
+int	ft_putstr(char *s)
+{
+	int	i;
+	int	res;
 
-#endif
+	i = 0;
+	res = 0;
+	if (s == NULL)
+		s = "(null)";
+	while (s[i] != '\0')
+	{
+		res = res + ft_putchar(s[i]);
+		i++;
+	}
+	return (res);
+}

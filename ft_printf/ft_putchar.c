@@ -1,21 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   header.h                                           :+:      :+:    :+:   */
+/*   ft_putchar.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: obarais <obarais@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/14 21:47:55 by obarais           #+#    #+#             */
-/*   Updated: 2025/02/15 17:32:46 by obarais          ###   ########.fr       */
+/*   Created: 2024/11/23 11:39:17 by obarais           #+#    #+#             */
+/*   Updated: 2024/11/30 10:02:48 by obarais          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef HEADER_H
-# define HEADER_H
+#include "ft_printf.h"
 
-# include "ft_printf/ft_printf.h"
-# include <signal.h>
-# include <sys/types.h>
-# include <unistd.h>
+int	ft_putchar(char c)
+{
+	int	i;
 
-#endif
+	i = write(1, &c, 1);
+	return (i);
+}

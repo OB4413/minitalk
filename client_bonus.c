@@ -6,7 +6,7 @@
 /*   By: obarais <obarais@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 16:40:12 by obarais           #+#    #+#             */
-/*   Updated: 2025/02/14 21:50:47 by obarais          ###   ########.fr       */
+/*   Updated: 2025/02/15 16:37:01 by obarais          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ int	main(int argc, char **argv)
 		return (1);
 	}
 	pid = ft_atoi(argv[1]);
-	if (pid == 0 || pid == -1)
+	if (pid == 0 || pid == -1 || (pid < -4194304 && pid > 4194304))
 	{
 		write(2, "Invalid PID\n", 12);
 		return (1);

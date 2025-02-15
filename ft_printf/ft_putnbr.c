@@ -1,21 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   header.h                                           :+:      :+:    :+:   */
+/*   ft_putnbr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: obarais <obarais@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/14 21:47:55 by obarais           #+#    #+#             */
-/*   Updated: 2025/02/15 17:32:46 by obarais          ###   ########.fr       */
+/*   Created: 2024/11/23 13:06:21 by obarais           #+#    #+#             */
+/*   Updated: 2024/12/01 15:28:35 by obarais          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef HEADER_H
-# define HEADER_H
+#include "ft_printf.h"
 
-# include "ft_printf/ft_printf.h"
-# include <signal.h>
-# include <sys/types.h>
-# include <unistd.h>
+int	ft_putnbr(int n)
+{
+	int	res;
 
-#endif
+	res = 0;
+	if (n == -2147483648)
+	{
+		res = res + ft_putstr("-2147483648");
+	}
+	else if (n < 0)
+	{
+		res = res + ft_putchar('-');
+		res = res + ft_putnbr(n * (-1));
+	}
+	else if (n > 9)
+	{
+		res = res + ft_putnbr(n / 10);
+		res = res + ft_putnbr(n % 10);
+	}
+	else
+		res = res + ft_putchar(n + '0');
+	return (res);
+}
