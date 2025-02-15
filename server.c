@@ -6,7 +6,7 @@
 /*   By: obarais <obarais@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 16:31:00 by obarais           #+#    #+#             */
-/*   Updated: 2025/02/15 17:33:44 by obarais          ###   ########.fr       */
+/*   Updated: 2025/02/15 17:41:01 by obarais          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ void	handle_signal(int sig, siginfo_t *info, void *context)
 		c = 0;
 		bit = 0;
 		last_pid = info->si_pid;
+		write(1, "\n", 1);
 	}
 	if (sig == SIGUSR2)
 		c |= 1 << bit;
