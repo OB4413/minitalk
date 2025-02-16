@@ -6,7 +6,7 @@
 /*   By: obarais <obarais@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 16:39:30 by obarais           #+#    #+#             */
-/*   Updated: 2025/02/15 17:34:03 by obarais          ###   ########.fr       */
+/*   Updated: 2025/02/16 09:43:48 by obarais          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ int	main(void)
 	pid_t				pid;
 
 	pid = getpid();
-	printf("Server PID: %d\n", pid);
+	ft_printf("Server PID: %d\n", pid);
 	act.sa_sigaction = handle_signal;
 	act.sa_flags = SA_SIGINFO;
 	sigemptyset(&act.sa_mask);
