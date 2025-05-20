@@ -1,33 +1,59 @@
-# 📡 minitalk
+# 💬 minitalk
 
-> A small message-passing project using UNIX signals. Built as part of the 1337 curriculum.
+> A small client-server communication project using UNIX signals. Part of the 1337 curriculum.
 
 ## 📌 Description
 
-**minitalk** is a pair of programs (server & client) that communicate by sending characters bit by bit using UNIX signals (`SIGUSR1` and `SIGUSR2`). It demonstrates inter-process communication (IPC) without using sockets or pipes.
+The **minitalk** project consists of creating two programs: a server and a client. The client sends messages to the server using UNIX signals (`SIGUSR1` and `SIGUSR2`). The server receives the signals and reconstructs the message.
 
-## 🧠 What I Learned
+## ⚙️ Program Overview
 
-- Sending and receiving UNIX signals
-- Encoding characters into binary using signals
-- Writing signal handlers in C
-- Asynchronous programming
-- Managing signal timing and synchronization
+- **Server:** Waits for signals and rebuilds the message bit by bit.
+- **Client:** Sends a string to the server via signals.
+- Communication is done one bit at a time using `SIGUSR1` and `SIGUSR2`.
 
-## 🛠️ How It Works
+## 📁 File Structure
 
-- The server listens for signals and reconstructs characters
-- The client encodes each character into binary and sends 8 signals per char
-- After each char is received, the server can optionally send an acknowledgment
+```
+minitalk/
+├── client.c
+├── server.c
+├── minitalk.h
+├── Makefile
+└── README.md
+```
 
-## 🗂️ Project Structure
+## 🧪 Usage Example
 
+1. Run the server (it will print its PID):
 
-## 🚀 How to Compile
+```bash
+$ ./server
+Server PID: 12345
+```
+
+2. Run the client and send a message:
+
+```bash
+$ ./client 12345 "Hello, 1337!"
+```
+
+## 🔧 Compilation
 
 ```bash
 make
-
 ./server
-Server PID: 12345
-./client 12345 "Hello from client!"
+./client <server_pid> "<message>"
+```
+
+## ✅ Features
+
+- Sends messages using UNIX signals.
+- Handles messages of arbitrary length.
+- Simple and efficient communication.
+- Complies with 1337 coding norms.
+
+## 👨‍💻 Author
+
+- GitHub: [OB4413](https://github.com/OB4413)
+****
